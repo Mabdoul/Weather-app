@@ -11,6 +11,9 @@ const humidityValueTxt = document.querySelector(".humidity-value-txt");
 const windValueTxt = document.querySelector(".wind-value-txt");
 const weatherSummaryImg = document.querySelector(".weather-summary-img");
 const currentDateTxt = document.querySelector(".current-date-txt");
+const forecastItemsContainer = document.querySelector(
+  ".forecast-items-container"
+);
 searchInput.addEventListener("click", () => {
   if (cityInput.value.trim() != "") {
     updateWeatherInfo(cityInput.value);
@@ -30,11 +33,23 @@ async function getFetchData(endPoint, city) {
   const response = await fetch(apiUrl);
   return response.json();
 }
-function getWeatherIcon(id){
-if (id<= 232) {
-  
+function getWeatherIcon(id) {
+  if (id <= 232) return "thunderstrom.svg";
+  if (id <= 321) return "drizzle.svg";
+  if (id <= 531) return "rain.svg";
+  if (id <= 622) return "snow.svg";
+  if (id <= 781) return "atmosphere.svg";
+  if (id <= 800) return "clear.svg";
+  else return "clouds.svg";
 }
-  
+function getCurrentDate() {
+  const currentDate = new Date();
+  const options = {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+  };
+  return currentDate.toLocaleDateString("en-GB", options);
 }
 
 async function updateWeatherInfo(city) {
@@ -51,14 +66,55 @@ async function updateWeatherInfo(city) {
     weather: [{ id, main }],
     wind: { speed },
   } = weatherData;
+
   countryTxt.textContent = country;
   tempTxt.textContent = Math.round(temp) + "°C ";
   conditionTxt.textContent = main;
   humidityValueTxt.textContent = humidity + "%";
   windValueTxt.textContent = speed + " M/s";
-  weatherSummaryImg.src=`assets/weather/${getWeatherIcon(id)}`
+  currentDateTxt.textContent = getCurrentDate();
+  weatherSummaryImg.src = `assets/weather/${getWeatherIcon(id)}`;
+  await updateForecastsInfo();
+  showDisplaySection(weatherInfoSection);
 }
-
+async function updateForecastsInfo(city) {
+  const forecastsData = await getFetchData("forecast", city);
+  const timeTaken = "12:00:00";
+  const todayDate = new Date().toISOString().split("T")[0];
+  forecastItemsContainer.innerHTML = "";
+  forecastsData.list.forEach((forecastWeather) => {
+    if (
+      forecastWeather.dt_txt.includes(timeTaken) &&
+      !forecastWeather.startsWith(todayDate)
+    ) {
+      updateForecastsItems(forecastWeather);
+    }
+  });
+}
+function updateForecastsItems(weatherData) {
+  console.log(weatherData);
+  const {
+    dt_txt: date,
+    weather: [{ id }],
+    main: { temp },
+  } = weatherData;
+  const dateTaken = new Date(date);
+  const dateOption = {
+    day: "2-digit",
+    month: "short",
+  };
+  const dateResult = dateTaken.toLocaleDateString("en-US", dateOption);
+  const forecastItem = `
+    <div class="forcast-item">
+        <h5 class="forcast-item-date regular-txt">${dateResult}</h5>
+        <img src="assets/weather/${getWeatherIcon(
+          id
+        )}" class="forcast-item-img" />
+        <h5 class="forcast-item-temp">${Math.round(temp)} °C</h5>
+    </div>
+    `;
+  forecastItemsContainer.insertAdjacentHTML("beforeend", forecastItem);
+}
 function showDisplaySection(section) {
   [weatherInfoSection, searchCitySection, notFoundSection].forEach(
     (section) => (section.style.display = "none")
