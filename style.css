@@ -152,7 +152,7 @@ background: rgb(255, 255, 255, 0.15);
   height: 35px;
 }
 .forcast-item:hover{
-  background: rgba(219, 87, 87, 0.15);
+  background: rgba(153, 146, 146, 0.15);
 }
 .section-message img{
   height: 150px;
