@@ -38,17 +38,18 @@ body::before {
 }
 
 .suggestion-item {
-  padding: 10px;
+  font-weight: bold;
+  padding: 8px;
   cursor: pointer;
-  color: black;
-  font-size: 15px;
-  background: transparent;
+  transition: background-color 0.3s;
+  backdrop-filter: blur(5px) grayscale(0.5); /* Apply blur and subtle grey effect */
+  background-color: rgba(0, 0, 0, 0.15); /* Darken the background slightly */
+  color: black; /* Set text color to black */
+  font-size: 18px; /* Increase font size */
 }
-
 .suggestion-item:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.25); /* Darker background when hovered */
 }
-
 
 .main-container {
   border-radius: 15px;

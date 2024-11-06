@@ -27,9 +27,18 @@ const popularCities = [
   "Berlin",
   "Rome",
   "Moscow",
+  "Zanzibar",
+  "Fez",
+  "Morocco",
+  "Jeddah",
+  "Dakhla",
+  "Tangier",
+  "Changsha",
+  "Agadir",
+  "Safi",
+  "EL Jadida",
 ];
 
-// Show suggestions based on input
 cityInput.addEventListener("input", () => {
   const query = cityInput.value.toLowerCase().trim();
   if (query) {
@@ -42,7 +51,6 @@ cityInput.addEventListener("input", () => {
   }
 });
 
-// Show suggestions in the container
 function showSuggestions(cities) {
   suggestionsContainer.innerHTML = ""; // Clear previous suggestions
   cities.forEach((city) => {
@@ -59,7 +67,6 @@ function showSuggestions(cities) {
   suggestionsContainer.style.display = "block";
 }
 
-// Hide suggestions when the input is empty or user clicks outside
 function hideSuggestions() {
   suggestionsContainer.style.display = "none";
 }
