@@ -13,12 +13,13 @@
   <body>
     <main class="main-container">
       <header class="input-container">
-        <input class="city-input" type="text" placeholder="Enter your city" />
+        <input class="city-input" type="text" placeholder="Enter your city" oninput="showCitySuggestions()" />
         <button class="search-btn">
           <span class="material-symbols-outlined"> search </span>
         </button>
+        <ul id="city-suggestions" style="display:none;"></ul> <!-- Suggestions list -->
       </header>
-
+      
       <section class="weather-info" style="display: none">
         <div class="location-date-container">
           <div class="location">
@@ -51,33 +52,10 @@
           </div>
         </div>
         <div class="forcast-item-container">
-          <div class="forcast-item">
-            <h5 class="forcast-item-date regular-txt">05 Aug</h5>
-            <img src="assets/weather/rain.svg" class="forcast-item-img" />
-            <h5 class="forcast-item-temp">29 °C</h5>
-          </div>
-          <div class="forcast-item">
-            <h5 class="forcast-item-date regular-txt">05 Aug</h5>
-            <img src="assets/weather/rain.svg" class="forcast-item-img" />
-            <h5 class="forcast-item-temp">29 °C</h5>
-          </div>
-          <div class="forcast-item">
-            <h5 class="forcast-item-date regular-txt">05 Aug</h5>
-            <img src="assets/weather/rain.svg" class="forcast-item-img" />
-            <h5 class="forcast-item-temp">29 °C</h5>
-          </div>
-          <div class="forcast-item">
-            <h5 class="forcast-item-date regular-txt">05 Aug</h5>
-            <img src="assets/weather/rain.svg" class="forcast-item-img" />
-            <h5 class="forcast-item-temp">29 °C</h5>
-          </div>
-          <div class="forcast-item">
-            <h5 class="forcast-item-date regular-txt">05 Aug</h5>
-            <img src="assets/weather/rain.svg" class="forcast-item-img" />
-            <h5 class="forcast-item-temp">29 °C</h5>
-          </div>
+          <!-- Forecast items here -->
         </div>
       </section>
+
       <section class="search-city section-message">
         <img src="assets/message/search-city.png" />
         <div>
@@ -87,6 +65,7 @@
           </h4>
         </div>
       </section>
+
       <section class="not-found section-message" style="display: none">
         <img src="assets/message/not-found.png" />
         <div>
@@ -97,6 +76,7 @@
         </div>
       </section>
     </main>
+
     <script src="script.js"></script>
   </body>
 </html>

@@ -71,73 +71,68 @@ body::before {
   position: relative;
   margin-bottom: 25px;
 }
-.regular-txt{
+.regular-txt {
   font-weight: 400;
 }
 .weather-info {
-display: flex;
-flex-direction: column;
-gap: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 .location-date-container {
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.location{
-
-display: flex;
-gap: 6px;
-align-items: center;
+.location {
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
-
-.weather-summary-container{
+.weather-summary-container {
   display: flex;
   justify-content: space-between;
-align-items: center;
+  align-items: center;
 }
-.weather-summary-img{
+.weather-summary-img {
   width: 120px;
   height: 120px;
 }
-.weather-conditions-container{
+.weather-conditions-container {
   display: flex;
   justify-content: space-between;
 }
-.weather-summary-info{
+.weather-summary-info {
   align-items: end;
 }
-.condition-item{
+.condition-item {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.condition-item span{
+.condition-item span {
   font-size: 30px;
 }
-.forcast-item-container{
+.forcast-item-container {
   display: flex;
   gap: 15px;
   overflow-x: scroll;
   padding-bottom: 12px;
-
 }
-.forcast-item-container::-webkit-scrollbar{
-height: 8px;
-
+.forcast-item-container::-webkit-scrollbar {
+  height: 8px;
 }
-.forcast-item-container::-webkit-scrollbar-track{
-background: rgb(0, 0, 0, 0.1);
-border-radius: 99px;
+.forcast-item-container::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0.1);
+  border-radius: 99px;
 }
-.forcast-item-container::-webkit-scrollbar-thumb{
+.forcast-item-container::-webkit-scrollbar-thumb {
   background: rgb(0, 0, 0, 0.15);
   border-radius: 99px;
 }
-.forcast-item{
-background: rgb(255, 255, 255, 0.15);
+.forcast-item {
+  background: rgb(255, 255, 255, 0.15);
   min-width: 70px;
   display: flex;
   flex-direction: column;
@@ -147,23 +142,43 @@ background: rgb(255, 255, 255, 0.15);
   border-radius: 12px;
   transition: 0.3s background;
 }
-.forcast-item-img{
+.forcast-item-img {
   width: 35px;
   height: 35px;
 }
-.forcast-item:hover{
+.forcast-item:hover {
   background: rgba(153, 146, 146, 0.15);
 }
-.section-message img{
+.section-message img {
   height: 150px;
   width: fit-content;
-
 }
-.section-message{
-  display:flex ;
+.section-message {
+  display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 10px;
   margin-top: 25%;
+}
+#city-suggestions {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#city-suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#city-suggestions li:hover {
+  background-color: #f0f0f0;
 }
