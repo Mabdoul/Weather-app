@@ -20,6 +20,7 @@ const popularCities = [
   "New York",
   "Los Angeles",
   "Paris",
+  "qatar",
   "London",
   "Tokyo",
   "Sydney",
