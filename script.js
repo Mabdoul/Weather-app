@@ -1,4 +1,3 @@
-const cities = ['Casablanca', 'Rabat', 'Marrakech', 'Tangier', 'Agadir', 'Fez', 'Essaouira', 'Chefchaouen']; // List of cities
 const cityInput = document.querySelector(".city-input");
 const searchInput = document.querySelector(".search-btn");
 const apiKey = "63ecda3991a630514317f9d5dee95f84";
@@ -12,8 +11,58 @@ const humidityValueTxt = document.querySelector(".humidity-value-txt");
 const windValueTxt = document.querySelector(".wind-value-txt");
 const weatherSummaryImg = document.querySelector(".weather-summary-img");
 const currentDateTxt = document.querySelector(".current-date-txt");
-const forecastItemsContainer = document.querySelector(".forcast-item-container");
-const citySuggestionsList = document.getElementById("city-suggestions");
+const forecastItemsContainer = document.querySelector(
+  ".forcast-item-container"
+);
+const suggestionsContainer = document.querySelector(".suggestions-container");
+
+const popularCities = [
+  "New York",
+  "Los Angeles",
+  "Paris",
+  "London",
+  "Tokyo",
+  "Sydney",
+  "Dubai",
+  "Berlin",
+  "Rome",
+  "Moscow",
+];
+
+// Show suggestions based on input
+cityInput.addEventListener("input", () => {
+  const query = cityInput.value.toLowerCase().trim();
+  if (query) {
+    const filteredCities = popularCities.filter((city) =>
+      city.toLowerCase().includes(query)
+    );
+    showSuggestions(filteredCities);
+  } else {
+    hideSuggestions();
+  }
+});
+
+// Show suggestions in the container
+function showSuggestions(cities) {
+  suggestionsContainer.innerHTML = ""; // Clear previous suggestions
+  cities.forEach((city) => {
+    const suggestionItem = document.createElement("div");
+    suggestionItem.classList.add("suggestion-item");
+    suggestionItem.textContent = city;
+    suggestionItem.addEventListener("click", () => {
+      cityInput.value = city;
+      hideSuggestions();
+      updateWeatherInfo(city); // Search weather info for selected city
+    });
+    suggestionsContainer.appendChild(suggestionItem);
+  });
+  suggestionsContainer.style.display = "block";
+}
+
+// Hide suggestions when the input is empty or user clicks outside
+function hideSuggestions() {
+  suggestionsContainer.style.display = "none";
+}
 
 searchInput.addEventListener("click", () => {
   if (cityInput.value.trim() !== "") {
@@ -30,32 +79,6 @@ cityInput.addEventListener("keydown", (event) => {
     cityInput.blur();
   }
 });
-
-function showCitySuggestions() {
-  const query = cityInput.value.trim().toLowerCase();
-  citySuggestionsList.innerHTML = ''; // Clear previous suggestions
-
-  if (query.length > 0) {
-    const filteredCities = cities.filter(city => city.toLowerCase().includes(query));
-    
-    if (filteredCities.length > 0) {
-      citySuggestionsList.style.display = 'block'; // Show suggestions list
-
-      filteredCities.forEach(city => {
-        const li = document.createElement('li');
-        li.textContent = city;
-        li.onclick = () => {
-          cityInput.value = city; // Set input to selected city
-          citySuggestionsList.style.display = 'none'; // Hide suggestions
-          updateWeatherInfo(city); // Show weather info for selected city
-        };
-        citySuggestionsList.appendChild(li);
-      });
-    }
-  } else {
-    citySuggestionsList.style.display = 'none'; // Hide suggestions if input is empty
-  }
-}
 
 async function getFetchData(endPoint, city) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`;
@@ -94,7 +117,7 @@ async function updateWeatherInfo(city) {
   const {
     name: country,
     main: { temp, humidity },
-    weather: [{ id, main }], 
+    weather: [{ id, main }],
     wind: { speed },
   } = weatherData;
 
@@ -137,20 +160,25 @@ function updateForecastsItems(weatherData) {
     day: "2-digit",
     month: "short",
   };
-  const formattedDate = dateTaken.toLocaleDateString("en-GB", dateOption);
+  const dateResult = dateTaken.toLocaleDateString("en-GB", dateOption);
 
-  const forecastElement = document.createElement("div");
-  forecastElement.classList.add("forcast-item");
-  forecastElement.innerHTML = `
-    <h5 class="forcast-date-txt">${formattedDate}</h5>
-    <img src="assets/weather/${getWeatherIcon(id)}" class="forcast-weather-img" />
-    <h5 class="forcast-temp-txt">${Math.round(temp)}°C</h5>
+  const forecastItem = `
+    <div class="forcast-item">
+        <h5 class="forcast-item-date regular-txt">${dateResult}</h5>
+        <img src="assets/weather/${getWeatherIcon(
+          id
+        )}" class="forcast-item-img" />
+        <h5 class="forcast-item-temp">${Math.round(temp)} °C</h5>
+    </div>
   `;
-  forecastItemsContainer.appendChild(forecastElement);
+
+  forecastItemsContainer.insertAdjacentHTML("beforeend", forecastItem);
 }
 
-function showDisplaySection(displaySection) {
-  const sections = [weatherInfoSection, notFoundSection, searchCitySection];
-  sections.forEach((section) => section.style.display = "none");
-  displaySection.style.display = "flex";
+function showDisplaySection(section) {
+  [weatherInfoSection, searchCitySection, notFoundSection].forEach(
+    (sect) => (sect.style.display = "none")
+  );
+
+  section.style.display = "flex";
 }
